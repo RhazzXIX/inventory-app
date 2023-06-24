@@ -4,9 +4,54 @@
   box-sizing: border-box;
 }
 
-body {
-  padding: 50px;
+:root {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 6px 50px;
+  background-color: black;
+}
+
+header a:first-of-type {
+  color: yellow;
+}
+
+header a:first-of-type:hover {
+  outline: 1px solid yellow;
+}
+
+header a:first-of-type:active {
+  background-color: yellow;
+  color: black;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+header a:hover {
+  outline: 1px solid white;
+}
+
+header a:active {
+  background-color: white;
+  color: black;
 }
 
 a {
