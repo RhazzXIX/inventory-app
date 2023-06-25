@@ -12,7 +12,7 @@ const CategorySchema = new Schema({
 });
 
 CategorySchema.virtual("url").get(function () {
-  return `/shop/category/${this.name.toLowerCase()}`;
+  return `/stocks/category/${this._id}`;
 });
 
 module.exports = mongoose.model("Category", CategorySchema);
