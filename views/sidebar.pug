@@ -1,0 +1,23 @@
+extends layout 
+
+block content
+
+  block sidebar 
+    aside
+      div 
+        h3 Categories
+        a(href='/categories') 
+          img.button(
+            src='/images/edit.svg' 
+            alt='Edit categories'
+            style='width:18px;height:18px;'
+          )
+      ul
+        li
+          a(href='/stocks') All items 
+        
+        each category in categories
+          li 
+            a(href=category.url) #{category.name}
+
+  block main 
