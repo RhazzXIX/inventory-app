@@ -1,0 +1,17 @@
+extends sidebar
+
+block main
+  
+  main
+    div.header
+      h2=title
+      a(href='/stocks/item/create') Add items
+    dl 
+      each item in items 
+        a(href=item.url)
+          div.card
+            dt=item.name
+            dd Price: $#{item.price}
+
+      else
+        dt There are no items.    
