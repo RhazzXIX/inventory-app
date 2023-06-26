@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+
+  div
+    h1= title
+    a(href='/stocks/category/create') Create new category 
+
+  ul 
+    each category in categories 
+      li 
+        p= category.name 
+        a(href=category.url+'/update') Update category
+        a(href=category.url+'/delete') Delete category 
+    else 
+      li There are no Category
