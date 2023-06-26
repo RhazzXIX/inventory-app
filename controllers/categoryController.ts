@@ -90,6 +90,8 @@ exports.category_create_post = [
 
 // Delete category on GET
 exports.category_delete_get = asyncHandler(async function (req, res, next) {
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Category not found"));
   const [category, categories, itemsInCategory] = await Promise.all([
     Category.findById(req.params.id).exec(),
     Category.find().sort({ name: 1 }).exec(),
@@ -130,7 +132,21 @@ exports.category_delete_post = asyncHandler(async function (req, res, next) {
 
 // Handle GET request for updating category
 exports.category_update_get = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Category not found"));
+  const [category, categories] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Category.find().sort({ name: 1 }).exec(),
+  ]);
+
+  if (category === null)
+    return next(createHttpError(404, "Category not found"));
+
+  res.render("category_form", {
+    title: "Update Category",
+    category,
+    categories,
+  });
 });
 
 // Handle Post request for updating category
