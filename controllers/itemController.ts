@@ -95,25 +95,48 @@ exports.item_create_post = [
 
 // Handle GET request for deleting item.
 exports.item_delete_get = asyncHandler(async function (req, res, next) {
-  if (!mongoose.isValidObjectId(req.params.id)) return next(createHttpError(404, 'Item not found'));
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Item not found"));
   const [item, categories] = await Promise.all([
     Item.findById(req.params.id).exec(),
-    Category.find().sort({ name : 1 }).exec()
+    Category.find().sort({ name: 1 }).exec(),
   ]);
-  
-  if (item === null) res.redirect('/stocks');
-  res.render('item_detail', {
+
+  if (item === null) return next(createHttpError(404, "Item not found."));
+  res.render("item_detail", {
     title: "Delete Item",
     item,
     categories,
-    deleteItem: true
-  })
+    deleteItem: true,
+  });
 });
 
 // Handle POST request for deleting item.
-exports.item_delete_post = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
-});
+exports.item_delete_post = [
+  body("password", "Wrong password! Password is on README")
+    .trim()
+    .equals("deleteItem")
+    .escape(),
+  asyncHandler(async function (req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const [item, categories] = await Promise.all([
+        Item.findById(req.params.id).exec(),
+        Category.find().sort({ name: 1 }).exec(),
+      ]);
+      res.render("item_detail", {
+        title: "Delete Item",
+        item,
+        categories,
+        deleteItem: true,
+        errors: errors.array(),
+      });
+    } else {
+      await Item.findByIdAndRemove(req.body.itemid);
+      res.redirect("/stocks");
+    }
+  }),
+];
 
 // Handle GET request for updating item.
 exports.item_update_get = asyncHandler(async function (req, res, next) {
