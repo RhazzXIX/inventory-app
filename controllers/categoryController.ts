@@ -99,7 +99,6 @@ exports.category_delete_get = asyncHandler(async function (req, res, next) {
   ]);
 
   if (category === null) res.redirect("/stocks/categories");
-  console.log(itemsInCategory);
   res.render("category_delete", {
     title: "Delete Category",
     category,
@@ -123,7 +122,8 @@ exports.category_delete_post = asyncHandler(async function (req, res, next) {
       categories,
       items: itemsInCategory,
     });
-    return;  } else {
+    return;
+  } else {
     await Category.findByIdAndRemove(req.body.categoryid);
     res.redirect("/stocks/categories");
   }
@@ -158,22 +158,26 @@ exports.category_update_post = [
     const errors = validationResult(req);
     const category = new Category({
       _id: req.params.id,
-      name: req.body.name
-    })
+      name: req.body.name,
+    });
 
-    const categories = await Category.find().sort({ name: 1 }).exec()
-
+    
     if (!errors.isEmpty()) {
-      res.render('category_form', {
-        title: 'Update Category',
+      const categories = await Category.find().sort({ name: 1 }).exec();
+      res.render("category_form", {
+        title: "Update Category",
         category,
         categories,
         errors: errors.array(),
-      })
+      });
       return;
     } else {
-      const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
+      const updatedCategory = await Category.findByIdAndUpdate(
+        req.params.id,
+        category,
+        {}
+      );
       res.redirect(updatedCategory.items_url);
     }
-  })
-]
+  }),
+];
