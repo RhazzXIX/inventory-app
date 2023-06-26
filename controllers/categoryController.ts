@@ -44,7 +44,12 @@ exports.category_list = asyncHandler(async function (req, res, next) {
 
 // Create category on GET
 exports.category_create_get = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  const categories = await Category.find().sort({name: 1}).exec();
+
+  res.render('category_form', {
+    title: 'Create Category',
+    categories,
+  })
 });
 
 // Create category on POST
