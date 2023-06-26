@@ -140,7 +140,18 @@ exports.item_delete_post = [
 
 // Handle GET request for updating item.
 exports.item_update_get = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Item not found."));
+  const [item, categories] = await Promise.all([
+    Item.findById(req.params.id).exec(),
+    Category.find().sort({ name: 1 }).exec(),
+  ]);
+  if (item === null) return next(createHttpError(404, "Item not found."));
+  res.render("item_form", {
+    title: "Update Item",
+    item,
+    categories,
+  });
 });
 
 // Handle POST request for updating item.
