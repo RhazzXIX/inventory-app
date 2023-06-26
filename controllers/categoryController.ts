@@ -90,7 +90,20 @@ exports.category_create_post = [
 
 // Delete category on GET
 exports.category_delete_get = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  const [category, categories, itemsInCategory] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Category.find().sort({ name: 1 }).exec(),
+    Item.find({ category: req.params.id }, "name").sort({ name: 1 }).exec(),
+  ]);
+
+  if (category === null) res.redirect("/stocks/categories");
+  console.log(itemsInCategory);
+  res.render("category_delete", {
+    title: "Delete Category",
+    category,
+    categories,
+    items: itemsInCategory,
+  });
 });
 
 // Delete category on POST
