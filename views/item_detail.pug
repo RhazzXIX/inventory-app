@@ -1,0 +1,16 @@
+extends sidebar 
+
+block main 
+  main 
+    h2 Item: #{item.name}
+
+    p Price: $#{item.price}
+    h3 Summary:
+    p=item.description
+  
+    hr
+    p
+      a(href=item.url+'/update') Update item 
+    p 
+      a(href=item.url+'/delete') Delete item
+
