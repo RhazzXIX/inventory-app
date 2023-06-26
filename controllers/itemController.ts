@@ -40,7 +40,11 @@ exports.item_detail = asyncHandler(async function (req, res, next) {
 
 // Handle GET request for creating item.
 exports.item_create_get = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  const categories = await Category.find().sort({ name: 1 }).exec();
+  res.render("item_form", {
+    title: "Create Item",
+    categories,
+  });
 });
 
 // Handle POST request for creating item.
