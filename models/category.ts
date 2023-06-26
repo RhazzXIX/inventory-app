@@ -15,4 +15,8 @@ CategorySchema.virtual("url").get(function () {
   return `/stocks/category/${this._id}`;
 });
 
+CategorySchema.virtual("items_url").get(function () {
+  return `/stocks/category-items/${this._id}`;
+});
+
 module.exports = mongoose.model("Category", CategorySchema);

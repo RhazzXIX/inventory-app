@@ -6,7 +6,7 @@ block content
     aside
       div 
         h3 Categories
-        a(href='/categories') 
+        a(href='/stocks/categories') 
           img.button(
             src='/images/edit.svg' 
             alt='Edit categories'
@@ -18,6 +18,6 @@ block content
         
         each category in categories
           li 
-            a(href=category.url) #{category.name}
+            a(href=category.items_url) #{category.name}
 
   block main 
