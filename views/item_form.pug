@@ -2,7 +2,6 @@ extends sidebar
 
 block main 
   h1=title 
-  
   form(action="", method="post") 
     label(for="name") Name: 
       input#name(
@@ -18,15 +17,12 @@ block main
         cols="30", 
         rows="10",
         required=true,
-        value=(undefined === item ? '' : item.description),
         placeholder="Description"
-      )
+      ) #{undefined === item ? '' : item.description}
     label(for='category') Category: 
       select#category(
-        type='select',
-        placeholder='Select category',
         name='category',
-        required=true
+        required=true,
       )
         - 
           categories.sort(function(a, b) {
@@ -38,12 +34,11 @@ block main
           if item 
             option(
               value=category._id,
-              selected=(
-                category._id.toString() === item.category._id.toString() ?
+              selected=(category._id.toString() === item.category._id.toString() ?
                  'selected' 
                  : false
-                ) #{category.name}
-            )
+              ) 
+            ) #{category.name}
           else 
             option(value=category._id) #{category.name}
     label(for='price') Price: 
