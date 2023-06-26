@@ -11,7 +11,7 @@ exports.category_items = asyncHandler(async function (req, res, next) {
   if (!mongoose.isValidObjectId(req.params.id))
     return next(createHttpError(404, "Category not found."));
   const [categories, category, itemsInCategory] = await Promise.all([
-    Category.find().exec(),
+    Category.find().sort({ name: 1 }).exec(),
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }, "name price")
       .populate("category")
@@ -34,7 +34,12 @@ exports.category_items = asyncHandler(async function (req, res, next) {
 
 // Display list of categories
 exports.category_list = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
+  const categories = await Category.find().sort({ name: 1 }).exec();
+
+  res.render("category_list", {
+    title: "Category List",
+    categories,
+  });
 });
 
 // Create category on GET
