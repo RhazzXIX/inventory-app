@@ -1,0 +1,18 @@
+extends sidebar 
+
+block main 
+  h1=title
+  form(action="", method="post") 
+    label(for="name") Category: 
+      input#name(
+        type="text", 
+        name="name", 
+        placeholder='Beef, Seafood, Equipments, etc.',
+        value=(undefined === category ? '' : category.name)
+      )
+    button(type="submit") Create
+
+  if errors 
+    ul
+      for error in errors 
+        li.error= error.msg
