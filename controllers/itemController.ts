@@ -2,6 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
+import { body, validationResult } from "express-validator";
 const Category = require("../models/category");
 const Item = require("../models/item");
 
@@ -48,9 +49,49 @@ exports.item_create_get = asyncHandler(async function (req, res, next) {
 });
 
 // Handle POST request for creating item.
-exports.item_create_post = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
-});
+exports.item_create_post = [
+  body("name", "Name must contain at least 3 characters.")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("description", "Description must contain at least 3 characters.")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("category", "Category must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("price")
+    .notEmpty()
+    .withMessage("Price should have value")
+    .isFloat({
+      gt: 0,
+    })
+    .withMessage("Price must be greater than 0")
+    .escape(),
+  asyncHandler(async function (req, res, next) {
+    const errors = validationResult(req);
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      price: req.body.price,
+    });
+    if (!errors.isEmpty()) {
+      const categories = await Category.find().sort({ name: 1 }).exec();
+      res.render("item_form", {
+        title: "Create Category",
+        item,
+        categories,
+        errors: errors.array(),
+      });
+    } else {
+      await item.save();
+      res.redirect(item.url);
+    }
+  }),
+];
 
 // Handle GET request for deleting item.
 exports.item_delete_get = asyncHandler(async function (req, res, next) {
