@@ -1,13 +1,35 @@
 import createHttpError from "http-errors";
-import express from 'express'
+import express from "express";
 import asyncHandler from "express-async-handler";
+import mongoose from "mongoose";
 const Category = require("../models/category");
 const Item = require("../models/item");
 const debug = require("debug")("category");
 
 // Display items per category
 exports.category_items = asyncHandler(async function (req, res, next) {
-  res.send(`Not yet implemented ${req.params.id}`);
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Category not found."));
+  const [categories, category, itemsInCategory] = await Promise.all([
+    Category.find().exec(),
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }, "name price")
+      .populate("category")
+      .exec(),
+  ]);
+  if (category === null)
+    return next(createHttpError(404, "Category not found"));
+  if (itemsInCategory === null) {
+    return next(
+      createHttpError(404, `Items in category "${category.name}" not found.`)
+    );
+  } else {
+    res.render("stock_index", {
+      title: category.name,
+      categories,
+      items: itemsInCategory,
+    });
+  }
 });
 
 // Display list of categories
