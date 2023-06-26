@@ -123,8 +123,7 @@ exports.category_delete_post = asyncHandler(async function (req, res, next) {
       categories,
       items: itemsInCategory,
     });
-    return;
-  } else {
+    return;  } else {
     await Category.findByIdAndRemove(req.body.categoryid);
     res.redirect("/stocks/categories");
   }
@@ -150,6 +149,31 @@ exports.category_update_get = asyncHandler(async function (req, res, next) {
 });
 
 // Handle Post request for updating category
-exports.category_update_post = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
-});
+exports.category_update_post = [
+  body("name", "Category name must contain at least 2 letters")
+    .trim()
+    .isLength({ min: 2 })
+    .escape(),
+  asyncHandler(async function (req, res, next) {
+    const errors = validationResult(req);
+    const category = new Category({
+      _id: req.params.id,
+      name: req.body.name
+    })
+
+    const categories = await Category.find().sort({ name: 1 }).exec()
+
+    if (!errors.isEmpty()) {
+      res.render('category_form', {
+        title: 'Update Category',
+        category,
+        categories,
+        errors: errors.array(),
+      })
+      return;
+    } else {
+      const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
+      res.redirect(updatedCategory.items_url);
+    }
+  })
+]
