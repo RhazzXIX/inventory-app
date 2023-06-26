@@ -81,7 +81,7 @@ exports.item_create_post = [
     if (!errors.isEmpty()) {
       const categories = await Category.find().sort({ name: 1 }).exec();
       res.render("item_form", {
-        title: "Create Category",
+        title: "Create Item",
         item,
         categories,
         errors: errors.array(),
@@ -155,6 +155,53 @@ exports.item_update_get = asyncHandler(async function (req, res, next) {
 });
 
 // Handle POST request for updating item.
-exports.item_update_post = asyncHandler(async function (req, res, next) {
-  res.send("Not yet implemented");
-});
+exports.item_update_post = [
+  body("name", "Name must contain at least 3 characters.")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("description", "Description must contain at least 3 characters.")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("category", "Category must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("price")
+    .notEmpty()
+    .withMessage("Price should have value")
+    .isFloat({
+      gt: 0,
+    })
+    .withMessage("Price must be greater than 0")
+    .escape(),
+  asyncHandler(async function (req, res, next) {
+    const errors = validationResult(req);
+    const item = new Item({
+      _id: req.params.id,
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      price: req.body.price,
+    });
+
+    if (!errors.isEmpty()) {
+      const categories = await Category.find().sort({ name: 1 }).exec();
+      res.render("item_form", {
+        title: "Update Item",
+        item,
+        categories,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      const updatedItem = await Item.findByIdAndUpdate(
+        req.params.id,
+        item,
+        {}
+      ).exec();
+      res.redirect(updatedItem.url);
+    }
+  }),
+];
