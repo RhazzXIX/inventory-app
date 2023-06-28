@@ -40,6 +40,7 @@ exports.item_detail = asyncHandler(async function (req, res, next) {
     title: item.name,
     categories,
     item,
+    adtnlCss: '/stylesheets/item_detail.css'
   });
 });
 

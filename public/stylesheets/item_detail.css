@@ -1,0 +1,10 @@
+main {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+main img {
+  max-width: 500px;
+}

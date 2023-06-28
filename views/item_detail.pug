@@ -4,7 +4,7 @@ block main
   main 
     h2 Item: #{item.name}
     img(
-      src=(undefined === item.img ? '' : item.img.substring(6)),
+      src=(undefined === item.img ? '/images/no_image.jpg' : item.img.substring(6)),
       alt=''
     )
     p Price: $#{item.price}

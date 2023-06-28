@@ -14,7 +14,7 @@ exports.category_items = asyncHandler(async function (req, res, next) {
   const [categories, category, itemsInCategory] = await Promise.all([
     Category.find().sort({ name: 1 }).exec(),
     Category.findById(req.params.id).exec(),
-    Item.find({ category: req.params.id }, "name price")
+    Item.find({ category: req.params.id }, "name price img")
       .populate("category")
       .exec(),
   ]);
