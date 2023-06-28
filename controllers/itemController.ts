@@ -168,11 +168,11 @@ exports.item_delete_post = [
     .escape(),
   asyncHandler(async function (req, res, next) {
     const errors = validationResult(req);
+    const [item, categories] = await Promise.all([
+      Item.findById(req.params.id).exec(),
+      Category.find().sort({ name: 1 }).exec(),
+    ]);
     if (!errors.isEmpty()) {
-      const [item, categories] = await Promise.all([
-        Item.findById(req.params.id).exec(),
-        Category.find().sort({ name: 1 }).exec(),
-      ]);
       res.render("item_detail", {
         title: "Delete Item",
         item,
@@ -181,6 +181,12 @@ exports.item_delete_post = [
         errors: errors.array(),
       });
     } else {
+      if (item.img) {
+        fs.unlink(item.img, (err)=> {
+          if (err) next(err)
+          console.log(`Deleted ${item.img}`)
+        })
+      }
       await Item.findByIdAndRemove(req.body.itemid);
       res.redirect("/stocks");
     }
