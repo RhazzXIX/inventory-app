@@ -3,6 +3,8 @@ import asyncHandler from "express-async-handler";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import { body, validationResult } from "express-validator";
+const multer = require("multer");
+const upload = multer({ dest: "public/data/uploads" });
 const Category = require("../models/category");
 const Item = require("../models/item");
 
@@ -88,7 +90,46 @@ exports.item_create_post = [
       });
     } else {
       await item.save();
-      res.redirect(item.url);
+      res.redirect(`${item.url}/image/upload`);
+    }
+  }),
+];
+
+// Handle GET request for uploading item image
+exports.itemImg_upload_get = asyncHandler(async function (req, res, next) {
+  if (!mongoose.isValidObjectId(req.params.id))
+    return next(createHttpError(404, "Item not found"));
+  const [item, categories] = await Promise.all([
+    Item.findById(req.params.id),
+    Category.find().sort({ name: 1 }).exec(),
+  ]);
+
+  if (item === null) return next(createHttpError(404, "Item not found"));
+  res.render("item_img_form", {
+    title: "Upload Image",
+    item,
+    categories,
+  });
+});
+
+// Handle POST request for uploading item image
+exports.itemImg_upload_post = [
+  upload.single("itemImg"),
+  asyncHandler(async function (req, res, next) {
+    if (!mongoose.isValidObjectId(req.params.id))
+      return next(createHttpError(404, "Item not found"));
+    const [item, categories] = await [
+      Item.findById(req.params.id).exec(),
+      Category.find().sort({ name: 1 }).exec(),
+    ];
+    if (item === null) return next(createHttpError(404, "Item not found"));
+    if (req.file) {
+      const updatedItem = await Item.findByIdAndUpdate(
+        req.params.id,
+        { img: req.file.path },
+        {}
+      ).exec();
+      res.redirect(updatedItem.url);
     }
   }),
 ];

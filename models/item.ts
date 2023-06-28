@@ -17,12 +17,13 @@ const ItemSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    required: true
+    required: true,
   },
   price: {
     type: Number,
     required: true,
   },
+  img: String,
 });
 
 ItemSchema.virtual("url").get(function () {

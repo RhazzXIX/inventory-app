@@ -27,6 +27,10 @@ router.post("/item/create", itemController.item_create_post);
 
 router.get("/item/:id", itemController.item_detail);
 
+router.get("/item/:id/image/upload", itemController.itemImg_upload_get);
+
+router.post("/item/:id/image/upload", itemController.itemImg_upload_post);
+
 router.get("/item/:id/delete", itemController.item_delete_get);
 
 router.post("/item/:id/delete", itemController.item_delete_post);
