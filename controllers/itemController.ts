@@ -20,7 +20,7 @@ exports.index = asyncHandler(async function (req, res, next) {
     title: "All Items",
     categories,
     items,
-    adtnlCss: '/stylesheets/stock_index.css'
+    adtnlCss: "/stylesheets/stock_index.css",
   });
 });
 
@@ -40,7 +40,7 @@ exports.item_detail = asyncHandler(async function (req, res, next) {
     title: item.name,
     categories,
     item,
-    adtnlCss: '/stylesheets/item_detail.css'
+    adtnlCss: "/stylesheets/item_detail.css",
   });
 });
 
@@ -50,6 +50,7 @@ exports.item_create_get = asyncHandler(async function (req, res, next) {
   res.render("item_form", {
     title: "Create Item",
     categories,
+    adtnlCss: "/stylesheets/form_style.css",
   });
 });
 
@@ -82,6 +83,7 @@ exports.item_create_post = [
       description: req.body.description,
       category: req.body.category,
       price: req.body.price,
+      adtnlCss: "/stylesheets/form_style.css",
     });
     if (!errors.isEmpty()) {
       const categories = await Category.find().sort({ name: 1 }).exec();
@@ -90,6 +92,7 @@ exports.item_create_post = [
         item,
         categories,
         errors: errors.array(),
+        adtnlCss: "/stylesheets/form_style.css",
       });
     } else {
       await item.save();
@@ -112,6 +115,7 @@ exports.itemImg_upload_get = asyncHandler(async function (req, res, next) {
     title: "Upload Image",
     item,
     categories,
+    adtnlCss: "/stylesheets/form_style.css",
   });
 });
 
@@ -159,6 +163,7 @@ exports.item_delete_get = asyncHandler(async function (req, res, next) {
     item,
     categories,
     deleteItem: true,
+    adtnlCss: "/stylesheets/item_detail.css",
   });
 });
 
@@ -181,13 +186,14 @@ exports.item_delete_post = [
         categories,
         deleteItem: true,
         errors: errors.array(),
+        adtnlCss: "/stylesheets/item_detail.css",
       });
     } else {
       if (item.img) {
-        fs.unlink(item.img, (err)=> {
-          if (err) next(err)
-          console.log(`Deleted ${item.img}`)
-        })
+        fs.unlink(item.img, (err) => {
+          if (err) next(err);
+          console.log(`Deleted ${item.img}`);
+        });
       }
       await Item.findByIdAndRemove(req.body.itemid);
       res.redirect("/stocks");
@@ -208,6 +214,7 @@ exports.item_update_get = asyncHandler(async function (req, res, next) {
     title: "Update Item",
     item,
     categories,
+    adtnlCss: "/stylesheets/form_style.css",
   });
 });
 
@@ -250,6 +257,7 @@ exports.item_update_post = [
         item,
         categories,
         errors: errors.array(),
+        adtnlCss: "/stylesheets/form_style.css",
       });
       return;
     } else {

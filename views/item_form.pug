@@ -1,58 +1,59 @@
 extends sidebar 
 
-block main 
-  h1=title 
-  form(action="", method="post") 
-    label(for="name") Name: 
-      input#name(
-        type="text", 
-        name="name",
-        placeholder='Name of Item', 
-        required=true,
-        value=(undefined === item ? '' : item.name)
-      )
-    label(for='description') Description: 
-      textarea#description(
-        name="description", 
-        cols="30", 
-        rows="10",
-        required=true,
-        placeholder="Description"
-      ) #{undefined === item ? '' : item.description}
-    label(for='category') Category: 
-      select#category(
-        name='category',
-        required=true,
-      )
-        - 
-          categories.sort(function(a, b) {
-            let categoryA = a.name.toUpperCase();
-            let categoryB = a.name.toUpperCase();
-            return (categoryA < categoryB) ? -1: (categoryA > categoryB) ? 1 : 0
-          });
-        each category in categories 
-          if item 
-            option(
-              value=category._id,
-              selected=(category._id.toString() === item.category._id.toString() ?
-                 'selected' 
-                 : false
-              ) 
-            ) #{category.name}
-          else 
-            option(value=category._id) #{category.name}
-    label(for='price') Price: 
-      input#price(
-        type="text", 
-        name="price",
-        required=true,
-        placeHolder='0.00',
-        value=(undefined === item ? '' : item.price),
-        inputmode='numeric'
-      )
-    button(type="submit") Submit 
-  
-  if errors 
-    ul 
-      each error in errors 
-        li= error.msg
+block main
+  main
+    h1=title 
+    form(action="", method="post") 
+      label(for="name") Name: 
+        input#name(
+          type="text", 
+          name="name",
+          placeholder='Name of Item', 
+          required=true,
+          value=(undefined === item ? '' : item.name)
+        )
+      label(for='description') Description: 
+        textarea#description(
+          name="description", 
+          cols="30", 
+          rows="10",
+          required=true,
+          placeholder="Description"
+        ) #{undefined === item ? '' : item.description}
+      label(for='category') Category: 
+        select#category(
+          name='category',
+          required=true,
+        )
+          - 
+            categories.sort(function(a, b) {
+              let categoryA = a.name.toUpperCase();
+              let categoryB = a.name.toUpperCase();
+              return (categoryA < categoryB) ? -1: (categoryA > categoryB) ? 1 : 0
+            });
+          each category in categories 
+            if item 
+              option(
+                value=category._id,
+                selected=(category._id.toString() === item.category._id.toString() ?
+                  'selected' 
+                  : false
+                ) 
+              ) #{category.name}
+            else 
+              option(value=category._id) #{category.name}
+      label(for='price') Price: 
+        input#price(
+          type="text", 
+          name="price",
+          required=true,
+          placeHolder='0.00',
+          value=(undefined === item ? '' : item.price),
+          inputmode='numeric'
+        )
+      button(type="submit") Submit 
+    
+    if errors 
+      ul 
+        each error in errors 
+          li= error.msg

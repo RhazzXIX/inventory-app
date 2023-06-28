@@ -5,30 +5,26 @@ main {
   gap: 12px;
 }
 
-main img {
+main form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   max-width: 500px;
 }
 
-main form {
- display: flex;
- flex-direction: column;
- gap: 8px;
- max-width: 500px;
-}
-
-form label {
+label {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
-form label input {
+input, textarea, select {
   padding: 4px 8px;
   font-size: 1.2rem;
 }
 
-main form button {
+form button {
+  font-size: 1.2rem;
   max-width: max-content;
+  align-self: end;
   padding: 4px 8px;
-  font-size: 1.2rem;
 }
