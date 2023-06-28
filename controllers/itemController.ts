@@ -8,6 +8,7 @@ const multer = require("multer");
 const upload = multer({ dest: "public/data/uploads" });
 const Category = require("../models/category");
 const Item = require("../models/item");
+const debug = require("debug")("item");
 
 // Handle GET request for showing all items
 exports.index = asyncHandler(async function (req, res, next) {

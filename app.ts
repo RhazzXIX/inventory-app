@@ -10,6 +10,9 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const homeRouter = require("./routes/home");
 const stocksRouter = require("./routes/stocks");
+const compression = require("compression");
+const helmet = require("helmet");
+const RateLimit = require('express-rate-limit');
 
 mongoose.set("strictQuery", false);
 
@@ -24,6 +27,19 @@ async function main() {
 }
 
 main().catch((err: Error) => console.log(err));
+
+// Set up rate limiter: maximum of twenty requests per minute
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 20 
+})
+
+app.use(limiter);
+
+// Compress all routes
+app.use(compression());
+// Use helmet for security
+app.use(helmet());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
