@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import { body, validationResult } from "express-validator";
+import * as fs from "fs";
 const multer = require("multer");
 const upload = multer({ dest: "public/data/uploads" });
 const Category = require("../models/category");
@@ -118,12 +119,19 @@ exports.itemImg_upload_post = [
   asyncHandler(async function (req, res, next) {
     if (!mongoose.isValidObjectId(req.params.id))
       return next(createHttpError(404, "Item not found"));
-    const [item, categories] = await [
+    const [item, categories] = await Promise.all([
       Item.findById(req.params.id).exec(),
       Category.find().sort({ name: 1 }).exec(),
-    ];
+    ]);
     if (item === null) return next(createHttpError(404, "Item not found"));
     if (req.file) {
+      console.log(item);
+      if (item.img) {
+        fs.unlink(item.img, (err) => {
+          if (err) next(err);
+          console.log(`Deleted ${item.img}`);
+        });
+      }
       const updatedItem = await Item.findByIdAndUpdate(
         req.params.id,
         { img: req.file.path },
@@ -242,7 +250,7 @@ exports.item_update_post = [
         item,
         {}
       ).exec();
-      res.redirect(updatedItem.url);
+      res.redirect(`${updatedItem.url}/image/upload`);
     }
   }),
 ];
