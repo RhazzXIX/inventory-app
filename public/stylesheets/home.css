@@ -17,4 +17,5 @@ main#home img {
   max-height: 328px;
   border-radius: 10% 25%;
   flex-basis: 100%;
+  border: 2px solid #f6aa1c;
 }
