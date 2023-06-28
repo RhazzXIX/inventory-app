@@ -1,23 +1,24 @@
 extends layout 
 
 block content
+  div
+    block sidebar 
+      aside
+        div 
+          h3 Categories
+          a(href='/stocks/categories') 
+            img.button(
+              src='/images/edit.svg' 
+              alt='Edit categories'
+              style='width:18px;height:18px;'
+            )
+        ul
+          li
+            a(href='/stocks') All items 
+          
+          if categories.length
+            each category in categories
+              li 
+                a(href=category.items_url) #{category.name}
 
-  block sidebar 
-    aside
-      div 
-        h3 Categories
-        a(href='/stocks/categories') 
-          img.button(
-            src='/images/edit.svg' 
-            alt='Edit categories'
-            style='width:18px;height:18px;'
-          )
-      ul
-        li
-          a(href='/stocks') All items 
-        
-        each category in categories
-          li 
-            a(href=category.items_url) #{category.name}
-
-  block main 
+    block main 

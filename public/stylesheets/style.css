@@ -54,6 +54,56 @@ header a:active {
   color: black;
 }
 
+body > div {
+  flex: auto;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+aside {
+  padding: 8px 12px;
+  background-color: #656161;
+  color: #f6aa1c;
+}
+
+aside > div h3 {
+  font-size: 1.3rem;
+}
+
+aside > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+aside > ul {
+  display: grid;
+  margin-top: 18px;
+  justify-content: center;
+  gap: 24px;
+}
+
+aside a {
+  border: 2px solid;
+  font-size: 1.2rem;
+  border-color: rgb(168, 168, 168) black black rgb(168, 168, 168);
+  border-radius: 8px;
+  color: #220901;
+  background-color: rgb(209, 209, 209);
+  padding: 4px 8px;
+  text-decoration: none;
+}
+
+aside a:active {
+  border-color: black rgb(212, 212, 212) rgb(212, 212, 212) black;
+  background-color: grey;
+  color: #fdca6b;
+}
+
 a {
   color: #00b7ff;
+}
+
+ul {
+  list-style: none;
 }
