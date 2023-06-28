@@ -29,7 +29,7 @@ exports.category_items = asyncHandler(async function (req, res, next) {
       title: category.name,
       categories,
       items: itemsInCategory,
-      adtnlCss: '/stylesheets/stock_index.css'
+      adtnlCss: "/stylesheets/stock_index.css",
     });
   }
 });
@@ -41,7 +41,7 @@ exports.category_list = asyncHandler(async function (req, res, next) {
   res.render("category_list", {
     title: "Category List",
     categories,
-    adtnlCss: '/stylesheets/category_list.css'
+    adtnlCss: "/stylesheets/category_list.css",
   });
 });
 
@@ -52,14 +52,15 @@ exports.category_create_get = asyncHandler(async function (req, res, next) {
   res.render("category_form", {
     title: "Create Category",
     categories,
+    adtnlCss: "/stylesheets/form_style.css",
   });
 });
 
 // Create category on POST
 exports.category_create_post = [
-  body("name", "Category name must contain at least 2 letters")
+  body("name", "Category name must contain at least 3 letters")
     .trim()
-    .isLength({ min: 2 })
+    .isLength({ min: 3 })
     .escape(),
   asyncHandler(async function (req, res, next) {
     const errors = validationResult(req);
@@ -76,6 +77,7 @@ exports.category_create_post = [
         categories,
         category,
         errors: errors.array(),
+        adtnlCss: "/stylesheets/form_style.css",
       });
 
       return;
@@ -147,14 +149,15 @@ exports.category_update_get = asyncHandler(async function (req, res, next) {
     title: "Update Category",
     category,
     categories,
+    adtnlCss: "/stylesheets/form_style.css",
   });
 });
 
 // Handle Post request for updating category
 exports.category_update_post = [
-  body("name", "Category name must contain at least 2 letters")
+  body("name", "Category name must contain at least 3 letters")
     .trim()
-    .isLength({ min: 2 })
+    .isLength({ min: 3 })
     .escape(),
   asyncHandler(async function (req, res, next) {
     const errors = validationResult(req);
@@ -163,7 +166,6 @@ exports.category_update_post = [
       name: req.body.name,
     });
 
-    
     if (!errors.isEmpty()) {
       const categories = await Category.find().sort({ name: 1 }).exec();
       res.render("category_form", {
@@ -171,6 +173,7 @@ exports.category_update_post = [
         category,
         categories,
         errors: errors.array(),
+        adtnlCss: "/stylesheets/form_style.css",
       });
       return;
     } else {

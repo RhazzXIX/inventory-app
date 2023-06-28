@@ -28,3 +28,9 @@ form button {
   align-self: end;
   padding: 4px 8px;
 }
+
+
+li.error {
+  color: red;
+  font-size: 1.2rem;
+}
