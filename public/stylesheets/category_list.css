@@ -1,0 +1,42 @@
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+}
+
+main > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+main > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+main > ul 
+li {
+  margin: auto;
+  width: 500px;
+  min-height: 30px;
+  display: grid;
+  grid-template-columns: 1fr repeat(2, 100px);
+  align-items: center;
+  border: 1px solid black;
+  padding: 8px 16px;
+  border-radius: 8px;
+} 
+
+main > ul 
+li:hover {
+  box-shadow: 0 0 4px black;
+}
+
+main > ul
+li a {
+  justify-self: center;
+}

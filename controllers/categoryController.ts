@@ -41,6 +41,7 @@ exports.category_list = asyncHandler(async function (req, res, next) {
   res.render("category_list", {
     title: "Category List",
     categories,
+    adtnlCss: '/stylesheets/category_list.css'
   });
 });
 
