@@ -108,6 +108,7 @@ exports.category_delete_get = asyncHandler(async function (req, res, next) {
     category,
     categories,
     items: itemsInCategory,
+    adtnlCss: '/stylesheets/detail_style.css'
   });
 });
 
@@ -125,6 +126,7 @@ exports.category_delete_post = asyncHandler(async function (req, res, next) {
       category,
       categories,
       items: itemsInCategory,
+      adtnlCss: '/stylesheets/detail_style.css'
     });
     return;
   } else {

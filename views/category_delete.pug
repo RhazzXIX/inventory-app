@@ -1,20 +1,21 @@
 extends sidebar
 
 block main 
-  h1 #{title}: #{category.name}
+  main
+    h1 #{title}: #{category.name}
 
-  if items.length 
-    p #[strong Delete all the following items before attempting to delete this category.]
+    if items.length 
+      p #[strong Delete all the following items before attempting to delete this category.]
 
-    ul 
-      each item in items 
-        li
-          a(href=item.url) #{item.name}
+      ul 
+        each item in items 
+          li
+            a(href=item.url) #{item.name}
 
-  else
-    p #[strong Do you really want to delete this category?] 
-    
-    form(action="", method="post")  
-      input#categoryid(type='hidden', required=true, name='categoryid', value=category._id)
+    else
+      p #[strong Do you really want to delete this category?] 
+      
+      form(action="", method="post")  
+        input#categoryid(type='hidden', required=true, name='categoryid', value=category._id)
 
-      button(type="submit") Delete
+        button(type="submit") Delete

@@ -40,7 +40,7 @@ exports.item_detail = asyncHandler(async function (req, res, next) {
     title: item.name,
     categories,
     item,
-    adtnlCss: "/stylesheets/item_detail.css",
+    adtnlCss: "/stylesheets/detail_style.css",
   });
 });
 
@@ -163,7 +163,7 @@ exports.item_delete_get = asyncHandler(async function (req, res, next) {
     item,
     categories,
     deleteItem: true,
-    adtnlCss: "/stylesheets/item_detail.css",
+    adtnlCss: "/stylesheets/detail_style.css",
   });
 });
 
@@ -186,7 +186,7 @@ exports.item_delete_post = [
         categories,
         deleteItem: true,
         errors: errors.array(),
-        adtnlCss: "/stylesheets/item_detail.css",
+        adtnlCss: "/stylesheets/detail_style.css",
       });
     } else {
       if (item.img) {
