@@ -10,6 +10,10 @@ block main
       each item in items 
         a(href=item.url)
           div.card
+            if item.img 
+              img(src=item.img.substring(6), alt="")
+            else 
+              img(src='/images/no_image.jpg', alt='')
             dt=item.name
             dd Price: $#{item.price}
 

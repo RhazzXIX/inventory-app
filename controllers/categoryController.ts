@@ -29,6 +29,7 @@ exports.category_items = asyncHandler(async function (req, res, next) {
       title: category.name,
       categories,
       items: itemsInCategory,
+      adtnlCss: '/stylesheets/stock_index.css'
     });
   }
 });

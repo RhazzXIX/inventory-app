@@ -1,0 +1,38 @@
+main div.header {
+  display: flex;
+  align-items: center;
+  max-width: 800px;
+  margin: auto;
+  justify-content: space-around;
+  /* border-bottom: 2px solid black; */
+  box-shadow: 0 4px 2px -2px black;
+  min-height: 52px;
+}
+
+main dl {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 26px;
+  justify-content: center;
+  gap: 16px;
+}
+
+div.card {
+  min-width: 200px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+div.card:hover {
+  box-shadow: 0 0 4px black;
+}
+
+div.card img {
+  max-width: 190px;
+}
+

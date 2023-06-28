@@ -12,7 +12,7 @@ const Item = require("../models/item");
 // Handle GET request for showing all items
 exports.index = asyncHandler(async function (req, res, next) {
   const [items, categories] = await Promise.all([
-    Item.find({}, "name price").exec(),
+    Item.find({}, "name price img").exec(),
     Category.find().sort({ name: 1 }).exec(),
   ]);
 
@@ -20,6 +20,7 @@ exports.index = asyncHandler(async function (req, res, next) {
     title: "All Items",
     categories,
     items,
+    adtnlCss: '/stylesheets/stock_index.css'
   });
 });
 
