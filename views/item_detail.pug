@@ -21,7 +21,7 @@ block main
       if errors 
         ul 
           each error in errors 
-            li= error.msg
+            li.error= error.msg
     else  
       p
         a(href=item.url+'/update') Update item 

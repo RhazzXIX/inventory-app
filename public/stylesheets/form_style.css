@@ -17,7 +17,9 @@ label {
   flex-direction: column;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   padding: 4px 8px;
   font-size: 1.2rem;
 }
@@ -28,7 +30,6 @@ form button {
   align-self: end;
   padding: 4px 8px;
 }
-
 
 li.error {
   color: red;
